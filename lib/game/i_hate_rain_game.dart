@@ -24,9 +24,8 @@ class IHateRainGame extends FlameGame {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    // Background setup
     await loadGameAssets();
-    // Initialize raindrops list
+
     raindrops = [];
     await _showStartGameDialog();
   }
@@ -44,14 +43,12 @@ class IHateRainGame extends FlameGame {
       ..position = Vector2(0, -size.y);
     add(background2);
 
-    // Bird setup
     bird = Bird()
       ..sprite = await loadSprite('bird.png')
       ..size = Vector2(30, 30)
       ..position = Vector2(size.x / 2 - 25, size.y / 1.3);
     add(bird);
 
-    // Cloud setup
     cloud = SpriteComponent()
       ..sprite = await loadSprite('cloud.png')
       ..size = Vector2(size.x, 150)
@@ -88,10 +85,8 @@ class IHateRainGame extends FlameGame {
   void update(double dt) {
     super.update(dt);
 
-    // Update raindrop speed based on score
     gameController.increaseRaindropSpeed(scoreController.score.value);
 
-    // Background movement
     background1.position.y += GameConstants.backgroundSpeed * dt;
     background2.position.y += GameConstants.backgroundSpeed * dt;
 
@@ -102,32 +97,26 @@ class IHateRainGame extends FlameGame {
       background2.position.y = background1.position.y - size.y;
     }
 
-    // Raindrop logic
     List<Raindrop> raindropsToRemove = [];
 
-    // Collect raindrops to remove
     for (var raindrop in raindrops) {
       raindrop.position.y += gameController.rainDropSpeed.value * dt;
 
-      // Check for collision
       if (bird.toRect().overlaps(raindrop.toRect())) {
         stopGame();
         return;
       }
 
-      // Check if raindrop is off the screen
       if (raindrop.position.y > size.y) {
         raindropsToRemove.add(raindrop);
-        scoreController.increment(); // Increment the score
+        scoreController.increment();
       }
     }
 
-    // Remove raindrops outside of the loop
     for (var raindrop in raindropsToRemove) {
       removeRaindrop(raindrop);
     }
 
-    // Generate new raindrops
     if (rand.nextDouble() < GameConstants.raindropSpawnRate) {
       generateRaindrop();
     }
@@ -187,12 +176,12 @@ class IHateRainGame extends FlameGame {
 
   Future<void> restartGame() async {
     gameController.rainDropSpeed.value = GameConstants.raindropSpeed;
-    scoreController.reset(); // Reset score
-    raindrops.clear(); // Clear the raindrop list
-    removeAll(children); // Remove all components from the game world
-    // onLoad(); // Reload the game components
+    scoreController.reset();
+    raindrops.clear();
+    removeAll(children);
+
     await loadGameAssets();
-    resumeEngine(); // Resume the game loop
+    resumeEngine();
   }
 }
 
