@@ -67,7 +67,7 @@ class IHateRainGame extends FlameGame {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: const Icon(Icons.play_arrow, size: 30),
+                icon: const Icon(Icons.play_arrow, size: 100),
                 onPressed: () {
                   scoreController.reset();
                   Get.back();
@@ -159,7 +159,7 @@ class IHateRainGame extends FlameGame {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: const Icon(Icons.refresh, size: 30),
+                icon: const Icon(Icons.refresh, size: 50),
                 onPressed: () {
                   scoreController.reset();
                   Get.back();
